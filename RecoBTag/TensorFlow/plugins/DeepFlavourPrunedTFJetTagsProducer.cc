@@ -33,11 +33,11 @@ struct DeepFlavourTFCache {
   std::atomic<tensorflow::GraphDef*> graphDef;
 };
 
-class DeepFlavourPrunedTFJetTagsProducer : public edm::stream::EDProducer<edm::GlobalCache<DeepFlavourTFCache>> {
+class DeepFlavourTFJetTagsProducer : public edm::stream::EDProducer<edm::GlobalCache<DeepFlavourTFCache>> {
 
   public:
-    explicit DeepFlavourPrunedTFJetTagsProducer(const edm::ParameterSet&, const DeepFlavourTFCache*);
-    ~DeepFlavourPrunedTFJetTagsProducer() override;
+    explicit DeepFlavourTFJetTagsProducer(const edm::ParameterSet&, const DeepFlavourTFCache*);
+    ~DeepFlavourTFJetTagsProducer() override;
 
     static void fillDescriptions(edm::ConfigurationDescriptions&);
 
@@ -79,7 +79,7 @@ class DeepFlavourPrunedTFJetTagsProducer : public edm::stream::EDProducer<edm::G
     bool batch_eval_;
 };
 
-DeepFlavourPrunedTFJetTagsProducer::DeepFlavourPrunedTFJetTagsProducer(const edm::ParameterSet& iConfig,
+DeepFlavourTFJetTagsProducer::DeepFlavourTFJetTagsProducer(const edm::ParameterSet& iConfig,
   const DeepFlavourTFCache* cache) :
   src_(consumes<TagInfoCollection>(iConfig.getParameter<edm::InputTag>("src"))),
   input_names_(iConfig.getParameter<std::vector<std::string>>("input_names")),
@@ -119,7 +119,7 @@ DeepFlavourPrunedTFJetTagsProducer::DeepFlavourPrunedTFJetTagsProducer(const edm
   }
 }
 
-DeepFlavourPrunedTFJetTagsProducer::~DeepFlavourPrunedTFJetTagsProducer()
+DeepFlavourTFJetTagsProducer::~DeepFlavourTFJetTagsProducer()
 {
   // close and delete the session
   if (session_ != nullptr) {
@@ -127,7 +127,7 @@ DeepFlavourPrunedTFJetTagsProducer::~DeepFlavourPrunedTFJetTagsProducer()
   }
 }
 
-void DeepFlavourPrunedTFJetTagsProducer::fillDescriptions(edm::ConfigurationDescriptions& descriptions)
+void DeepFlavourTFJetTagsProducer::fillDescriptions(edm::ConfigurationDescriptions& descriptions)
 {
 
   // pfDeepFlavourJetTags
@@ -157,10 +157,10 @@ void DeepFlavourPrunedTFJetTagsProducer::fillDescriptions(edm::ConfigurationDesc
   desc.add<unsigned int>("nThreads", 1);
   desc.add<std::string>("singleThreadPool", "no_threads");
 
-  descriptions.add("pfDeepFlavourJetTags", desc);
+  descriptions.add("pfDeepFlavourPrunedJetTags", desc);
 }
 
-std::unique_ptr<DeepFlavourTFCache> DeepFlavourPrunedTFJetTagsProducer::initializeGlobalCache(
+std::unique_ptr<DeepFlavourTFCache> DeepFlavourTFJetTagsProducer::initializeGlobalCache(
   const edm::ParameterSet& iConfig)
 {
   // set the tensorflow log level to error
@@ -176,14 +176,14 @@ std::unique_ptr<DeepFlavourTFCache> DeepFlavourPrunedTFJetTagsProducer::initiali
   return std::unique_ptr<DeepFlavourTFCache>(cache);
 }
 
-void DeepFlavourPrunedTFJetTagsProducer::globalEndJob(const DeepFlavourTFCache* cache)
+void DeepFlavourTFJetTagsProducer::globalEndJob(const DeepFlavourTFCache* cache)
 {
   if (cache->graphDef != nullptr) {
     delete cache->graphDef;
   }
 }
 
-void DeepFlavourPrunedTFJetTagsProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
+void DeepFlavourTFJetTagsProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
 
   edm::Handle<TagInfoCollection> tag_infos;
@@ -206,10 +206,10 @@ void DeepFlavourPrunedTFJetTagsProducer::produce(edm::Event& iEvent, const edm::
   const int64_t n_batch_jets = batch_eval_ ?  n_jets : 1;
 
   std::vector<tensorflow::TensorShape> input_sizes {
-    {n_batch_jets, 15},         // input_1 - global jet features
-    {n_batch_jets, 25, 16},     // input_2 - charged pf
-    {n_batch_jets, 25, 6},      // input_3 - neutral pf
-    {n_batch_jets, 4, 12},      // input_4 - vertices 
+    {n_batch_jets, 10},         // input_1 - global jet features
+    {n_batch_jets, 21, 10},     // input_2 - charged pf
+    {n_batch_jets, 14, 3},      // input_3 - neutral pf
+    {n_batch_jets, 4, 8},      // input_4 - vertices 
     {n_batch_jets, 1}           // input_5 - jet pt for reg 
   };
 
@@ -246,14 +246,14 @@ void DeepFlavourPrunedTFJetTagsProducer::produce(edm::Event& iEvent, const edm::
 
       // jet and other global features
       const auto & features = tag_infos->at(jet_n).features();
-      jet_tensor_filler(input_tensors.at(kGlobal).second, jet_bn, features);
+      jet_pruned_tensor_filler(input_tensors.at(kGlobal).second, jet_bn, features);
 
       // c_pf candidates
       auto max_c_pf_n = std::min(features.c_pf_features.size(),
         (std::size_t) input_sizes.at(kChargedCandidates).dim_size(1));
       for (std::size_t c_pf_n=0; c_pf_n < max_c_pf_n; c_pf_n++) {
         const auto & c_pf_features = features.c_pf_features.at(c_pf_n);
-        c_pf_tensor_filler(input_tensors.at(kChargedCandidates).second,
+        c_pf_pruned_tensor_filler(input_tensors.at(kChargedCandidates).second,
                            jet_bn, c_pf_n, c_pf_features);
       }
 
@@ -262,7 +262,7 @@ void DeepFlavourPrunedTFJetTagsProducer::produce(edm::Event& iEvent, const edm::
         (std::size_t) input_sizes.at(kNeutralCandidates).dim_size(1));
       for (std::size_t n_pf_n=0; n_pf_n < max_n_pf_n; n_pf_n++) {
         const auto & n_pf_features = features.n_pf_features.at(n_pf_n);
-        n_pf_tensor_filler(input_tensors.at(kNeutralCandidates).second,
+        n_pf_pruned_tensor_filler(input_tensors.at(kNeutralCandidates).second,
                            jet_bn, n_pf_n, n_pf_features);
       }
 
@@ -271,7 +271,7 @@ void DeepFlavourPrunedTFJetTagsProducer::produce(edm::Event& iEvent, const edm::
         (std::size_t) input_sizes.at(kVertices).dim_size(1));
       for (std::size_t sv_n=0; sv_n < max_sv_n; sv_n++) {
         const auto & sv_features = features.sv_features.at(sv_n);
-        sv_tensor_filler(input_tensors.at(kVertices).second,
+        sv_pruned_tensor_filler(input_tensors.at(kVertices).second,
                          jet_bn, sv_n, sv_features);
       }
 
@@ -308,4 +308,4 @@ void DeepFlavourPrunedTFJetTagsProducer::produce(edm::Event& iEvent, const edm::
 }
 
 //define this as a plug-in
-DEFINE_FWK_MODULE(DeepFlavourPrunedTFJetTagsProducer);
+DEFINE_FWK_MODULE(DeepFlavourTFJetTagsProducer);
