@@ -207,7 +207,7 @@ void DeepFlavourPrunedTFJetTagsProducer::produce(edm::Event& iEvent, const edm::
 
   std::vector<tensorflow::TensorShape> input_sizes {
     {n_batch_jets, 10},         // input_1 - global jet features
-    {n_batch_jets, 21, 10},     // input_2 - charged pf
+    {n_batch_jets, 21, 8},     // input_2 - charged pf
     {n_batch_jets, 14, 3},      // input_3 - neutral pf
     {n_batch_jets, 4, 8},      // input_4 - vertices 
     {n_batch_jets, 1}           // input_5 - jet pt for reg 

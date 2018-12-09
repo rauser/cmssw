@@ -142,8 +142,6 @@ namespace btagbtvdeep {
     *(++ptr) = c_pf_features.btagPf_trackJetDistVal;
     *(++ptr) = c_pf_features.btagPf_trackPtRel;
     *(++ptr) = c_pf_features.btagPf_trackPPar;
-    *(++ptr) = c_pf_features.vtx_ass;
-    *(++ptr) = c_pf_features.puppiw;
   }
   
   void c_pf_reduced_tensor_filler(tensorflow::Tensor & tensor,
