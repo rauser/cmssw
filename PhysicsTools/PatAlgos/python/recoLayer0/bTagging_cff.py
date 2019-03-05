@@ -184,6 +184,12 @@ supportedBtagDiscr = {
   , 'pfDeepFlavourJetTags:probc'                            : [["pfDeepFlavourTagInfos"], ['pfDeepCSVTagInfos', "pfImpactParameterTagInfos", 'pfInclusiveSecondaryVertexFinderTagInfos']]
   , 'pfDeepFlavourJetTags:probuds'                          : [["pfDeepFlavourTagInfos"], ['pfDeepCSVTagInfos', "pfImpactParameterTagInfos", 'pfInclusiveSecondaryVertexFinderTagInfos']]
   , 'pfDeepFlavourJetTags:probg'                            : [["pfDeepFlavourTagInfos"], ['pfDeepCSVTagInfos', "pfImpactParameterTagInfos", 'pfInclusiveSecondaryVertexFinderTagInfos']]
+  , 'pfDeepFlavourPrunedJetTags:probb'                            : [["pfDeepFlavourTagInfos"], ['pfDeepCSVTagInfos', "pfImpactParameterTagInfos", 'pfInclusiveSecondaryVertexFinderTagInfos']]
+  , 'pfDeepFlavourPrunedJetTags:probbb'                           : [["pfDeepFlavourTagInfos"], ['pfDeepCSVTagInfos', "pfImpactParameterTagInfos", 'pfInclusiveSecondaryVertexFinderTagInfos']]
+  , 'pfDeepFlavourPrunedJetTags:problepb'                         : [["pfDeepFlavourTagInfos"], ['pfDeepCSVTagInfos', "pfImpactParameterTagInfos", 'pfInclusiveSecondaryVertexFinderTagInfos']]
+  , 'pfDeepFlavourPrunedJetTags:probc'                            : [["pfDeepFlavourTagInfos"], ['pfDeepCSVTagInfos', "pfImpactParameterTagInfos", 'pfInclusiveSecondaryVertexFinderTagInfos']]
+  , 'pfDeepFlavourPrunedJetTags:probuds'                          : [["pfDeepFlavourTagInfos"], ['pfDeepCSVTagInfos', "pfImpactParameterTagInfos", 'pfInclusiveSecondaryVertexFinderTagInfos']]
+  , 'pfDeepFlavourPrunedJetTags:probg'                            : [["pfDeepFlavourTagInfos"], ['pfDeepCSVTagInfos', "pfImpactParameterTagInfos", 'pfInclusiveSecondaryVertexFinderTagInfos']]
   , 'pfNegativeDeepFlavourJetTags:probb'                            : [["pfNegativeDeepFlavourTagInfos"], ['pfDeepCSVNegativeTagInfos', "pfImpactParameterTagInfos", 'pfInclusiveSecondaryVertexFinderNegativeTagInfos']]
   , 'pfNegativeDeepFlavourJetTags:probbb'                           : [["pfNegativeDeepFlavourTagInfos"], ['pfDeepCSVNegativeTagInfos', "pfImpactParameterTagInfos", 'pfInclusiveSecondaryVertexFinderNegativeTagInfos']]
   , 'pfNegativeDeepFlavourJetTags:problepb'                         : [["pfNegativeDeepFlavourTagInfos"], ['pfDeepCSVNegativeTagInfos', "pfImpactParameterTagInfos", 'pfInclusiveSecondaryVertexFinderNegativeTagInfos']]
@@ -204,6 +210,14 @@ supportedBtagDiscr = {
   , 'pfMassIndependentDeepDoubleCvLJetTags:probHcc'                     : [["pfDeepDoubleXTagInfos"], ['pfBoostedDoubleSVAK8TagInfos', "pfImpactParameterAK8TagInfos", 'pfInclusiveSecondaryVertexFinderAK8TagInfos']]
   , 'pfMassIndependentDeepDoubleCvBJetTags:probHbb'                     : [["pfDeepDoubleXTagInfos"], ['pfBoostedDoubleSVAK8TagInfos', "pfImpactParameterAK8TagInfos", 'pfInclusiveSecondaryVertexFinderAK8TagInfos']]
   , 'pfMassIndependentDeepDoubleCvBJetTags:probHcc'                     : [["pfDeepDoubleXTagInfos"], ['pfBoostedDoubleSVAK8TagInfos', "pfImpactParameterAK8TagInfos", 'pfInclusiveSecondaryVertexFinderAK8TagInfos']]
+  , 'pfNegativeDeepFlavourPrunedJetTags:probb'                            : [["pfNegativeDeepFlavourTagInfos"], ['pfDeepCSVNegativeTagInfos', "pfImpactParameterTagInfos", 'pfInclusiveSecondaryVertexFinderNegativeTagInfos']]
+  , 'pfNegativeDeepFlavourPrunedJetTags:probbb'                           : [["pfNegativeDeepFlavourTagInfos"], ['pfDeepCSVNegativeTagInfos', "pfImpactParameterTagInfos", 'pfInclusiveSecondaryVertexFinderNegativeTagInfos']]
+  , 'pfNegativeDeepFlavourPrunedJetTags:problepb'                         : [["pfNegativeDeepFlavourTagInfos"], ['pfDeepCSVNegativeTagInfos', "pfImpactParameterTagInfos", 'pfInclusiveSecondaryVertexFinderNegativeTagInfos']]
+  , 'pfNegativeDeepFlavourPrunedJetTags:probc'                            : [["pfNegativeDeepFlavourTagInfos"], ['pfDeepCSVNegativeTagInfos', "pfImpactParameterTagInfos", 'pfInclusiveSecondaryVertexFinderNegativeTagInfos']]
+  , 'pfNegativeDeepFlavourPrunedJetTags:probuds'                          : [["pfNegativeDeepFlavourTagInfos"], ['pfDeepCSVNegativeTagInfos', "pfImpactParameterTagInfos", 'pfInclusiveSecondaryVertexFinderNegativeTagInfos']]
+  , 'pfNegativeDeepFlavourPrunedJetTags:probg'                            : [["pfNegativeDeepFlavourTagInfos"], ['pfDeepCSVNegativeTagInfos', "pfImpactParameterTagInfos", 'pfInclusiveSecondaryVertexFinderNegativeTagInfos']]
+  , 'pfDeepDoubleBJetTags:probQ'                            : [["pfDeepDoubleBTagInfos"], ['pfBoostedDoubleSVAK8TagInfos', "pfImpactParameterAK8TagInfos", 'pfInclusiveSecondaryVertexFinderAK8TagInfos']]
+  , 'pfDeepDoubleBJetTags:probH'                            : [["pfDeepDoubleBTagInfos"], ['pfBoostedDoubleSVAK8TagInfos', "pfImpactParameterAK8TagInfos", 'pfInclusiveSecondaryVertexFinderAK8TagInfos']]
 }
 
 # meta-taggers are simple arithmetic on top of other taggers, they are stored here
